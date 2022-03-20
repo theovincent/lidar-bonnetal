@@ -196,7 +196,7 @@ class borderMask(nn.Module):
       eroded_bodies = eroded_bodies + background_mask
 
     # we want the opposite
-    borders = 1 - eroded_bodies
+    borders = ~eroded_bodies
 
     # unbatch?
     if must_unbatch:

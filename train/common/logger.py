@@ -13,13 +13,11 @@ class Logger(object):
 
   def __init__(self, log_dir):
     """Create a summary writer logging to log_dir."""
-    self.writer = tf.summary.FileWriter(log_dir)
+    self.writer = tf.summary.create_file_writer(log_dir)
 
   def scalar_summary(self, tag, value, step):
     """Log a scalar variable."""
-    summary = tf.Summary(
-        value=[tf.Summary.Value(tag=tag, simple_value=value)])
-    self.writer.add_summary(summary, step)
+    tf.summary.scalar(tag, value)
     self.writer.flush()
 
   def image_summary(self, tag, images, step):
@@ -71,6 +69,5 @@ class Logger(object):
       hist.bucket.append(c)
 
     # Create and write Summary
-    summary = tf.Summary(value=[tf.Summary.Value(tag=tag, histo=hist)])
-    self.writer.add_summary(summary, step)
+    tf.summary.scalar(tag, hist)
     self.writer.flush()
